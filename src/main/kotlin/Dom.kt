@@ -17,4 +17,4 @@ fun elem(name: String, attrs: HashMap<String, String>, children: ArrayList<Node>
     Element(
         ElementData(name, attrs)
     )
-) 
+)

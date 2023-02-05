@@ -12,7 +12,6 @@ fun parse(source: String): Node {
     }
 }
 
-
 class Parser(private var pos: UInt, private val input: String) {
     /** Read the current character without consuming it. */
     private fun nextChar(): Char = this.input[this.pos.toInt() + 1]
@@ -96,14 +95,13 @@ class Parser(private var pos: UInt, private val input: String) {
     }
 
     /** Parse a list of name="value" pairs, separated by whitespace. */
-    fun parseAttributes(): HashMap<String, String> {
+    private fun parseAttributes(): HashMap<String, String> {
         val attributes = hashMapOf<String, String>()
         while (true) {
             this.consumeWhitespace()
             if (this.nextChar() == '>') break
             val (name, value) = this.parseAttr()
             attributes[name] = value
-
         }
         return attributes
     }

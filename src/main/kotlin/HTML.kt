@@ -2,7 +2,7 @@ import kotlin.collections.ArrayList
 
 /** Parse an HTML document and return the root element. */
 fun parse(source: String): Node {
-    val nodes = Parser(0u, source).parseNodes()
+    val nodes = HTMLParser(0u, source).parseNodes()
 
     // If the document contains a root element, just return it. Otherwise, create one.
     return if (nodes.size == 1) {
@@ -12,7 +12,7 @@ fun parse(source: String): Node {
     }
 }
 
-class Parser(private var pos: UInt, private val input: String) {
+class HTMLParser(private var pos: UInt, private val input: String) {
     /** Read the current character without consuming it. */
     private fun nextChar(): Char = this.input[this.pos.toInt() + 1]
 

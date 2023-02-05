@@ -14,10 +14,14 @@ fun parse(source: String): Node {
 
 class HTMLParser(private var pos: UInt, private val input: String) {
     /** Read the current character without consuming it. */
-    private fun nextChar(): Char = this.input[this.pos.toInt() + 1]
+    private fun nextChar(): Char = this.input[this.pos.toInt()]
 
     /** Do the next characters start with the given string? */
-    private fun startsWith(s: String): Boolean = this.input[this.pos.toInt() + 1] == s.first()
+    private fun startsWith(s: String): Boolean {
+        return this.input
+            .substring(this.pos.toInt())
+            .startsWith(s)
+    }
 
     /** Return true if all input is consumed. */
     private fun eof(): Boolean = this.pos >= this.input.length.toUInt()

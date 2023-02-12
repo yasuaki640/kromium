@@ -27,11 +27,11 @@ data class Specificity(val a: Int, val b: Int, val c: Int) : Comparable<Specific
     }
 }
 
-class SimpleSelector(
+data class SimpleSelector(
     var tagName: String?, var id: String?, val klazz: ArrayList<String>
 ) : Selector
 
-class Declaration(val name: String, val value: Value)
+data class Declaration(val name: String, val value: Value)
 
 sealed interface Value {
     /** Return the size of a length in px, or zero for non-lengths. */
@@ -41,21 +41,21 @@ sealed interface Value {
     }
 }
 
-class Keyword(val value: String) : Value
+data class Keyword(val value: String) : Value
 
-class Length(val f: Float, val unit: Unit) : Value
+data class Length(val f: Float, val unit: Unit) : Value
 
-class ColorValue(val color: Color) : Value
+data class ColorValue(val color: Color) : Value
 
 enum class Unit {
     Px,
 }
 
-class Color(
+data class Color(
     val r: UInt, val g: UInt, val b: UInt, val a: UInt
 )
 
-class CSSParser(var pos: UInt, val input: String) {
+class CSSParser(private var pos: UInt, private val input: String) {
     /** Parse a list of rule sets, separated by optional whitespace. */
     fun parseRules(): ArrayList<Rule> {
         val rules = ArrayList<Rule>()
@@ -98,7 +98,7 @@ class CSSParser(var pos: UInt, val input: String) {
     /** Parse one simple selector, e.g.: `type#id.class1.class2.class3` */
     private fun parseSimpleSelector(): SimpleSelector {
         val selector = SimpleSelector(null, null, ArrayList())
-        while (this.eof()) {
+        while (!this.eof()) {
             val c = this.nextChar()
             when {
                 c == '#' -> {
@@ -108,7 +108,7 @@ class CSSParser(var pos: UInt, val input: String) {
 
                 c == '.' -> {
                     this.consumeChar()
-                    this.parseIdentifier()?.let { selector.klazz.add(it) }
+                    this.parseIdentifier().let { selector.klazz.add(it) }
                 }
 
                 c == '*' -> {
@@ -188,7 +188,7 @@ class CSSParser(var pos: UInt, val input: String) {
     }
 
     private fun parseHexPair(): UInt {
-        val s = this.input.substring(this.pos.toInt()..this.pos.toInt() + 2)
+        val s = this.input.substring(this.pos.toInt(), this.pos.toInt() + 2)
         this.pos += 2u
         return s.toUInt(16)
     }
@@ -216,7 +216,7 @@ class CSSParser(var pos: UInt, val input: String) {
     }
 
     /** Read the current character without consuming it. */
-    private fun nextChar(): Char = this.input[this.pos.toInt() + 1]
+    private fun nextChar(): Char = this.input[this.pos.toInt()]
 
     /** Return true if all input is consumed. */
     private fun eof(): Boolean = this.pos >= this.input.length.toUInt()

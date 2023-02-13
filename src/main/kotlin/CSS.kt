@@ -28,7 +28,9 @@ data class Specificity(val a: Int, val b: Int, val c: Int) : Comparable<Specific
 }
 
 data class SimpleSelector(
-    var tagName: String?, var id: String?, val klazz: ArrayList<String>
+    var tagName: String?,
+    var id: String?,
+    val klazz: ArrayList<String>
 ) : Selector
 
 data class Declaration(val name: String, val value: Value)
@@ -52,7 +54,10 @@ enum class Unit {
 }
 
 data class Color(
-    val r: UInt, val g: UInt, val b: UInt, val a: UInt
+    val r: UInt,
+    val g: UInt,
+    val b: UInt,
+    val a: UInt
 )
 
 class CSSParser(private var pos: UInt, private val input: String) {

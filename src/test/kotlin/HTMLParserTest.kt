@@ -29,9 +29,11 @@ internal class HTMLParserTest {
 
         val div = body.children[1]
         assertEquals(
-            div.nodeType, Element(
+            div.nodeType,
+            Element(
                 ElementData(
-                    "div", hashMapOf(
+                    "div",
+                    hashMapOf(
                         Pair("id", "main"), Pair("class", "test")
                     )
                 )
@@ -52,6 +54,5 @@ internal class HTMLParserTest {
 
         val exclamation = p.children[2]
         assertEquals(exclamation.nodeType, Text("!"))
-
     }
 }

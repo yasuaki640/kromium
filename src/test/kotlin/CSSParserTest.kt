@@ -11,7 +11,8 @@ internal class CSSParserTest {
 
         val rule = rules[0]
         assertEquals(
-            rule.selectors, arrayListOf<Selector>(
+            rule.selectors,
+            arrayListOf<Selector>(
                 SimpleSelector("h1", null, ArrayList()),
                 SimpleSelector("h2", null, ArrayList()),
                 SimpleSelector("h3", null, ArrayList()),
@@ -19,10 +20,12 @@ internal class CSSParserTest {
         )
 
         assertEquals(
-            rule.declarations, arrayListOf(
+            rule.declarations,
+            arrayListOf(
                 Declaration("margin", Keyword("auto")),
                 Declaration(
-                    "color", ColorValue(
+                    "color",
+                    ColorValue(
                         Color(204u, 0u, 0u, 255u)
                     )
                 ),
@@ -39,13 +42,15 @@ internal class CSSParserTest {
 
         val rule = rules[0]
         assertEquals(
-            rule.selectors, arrayListOf<Selector>(
+            rule.selectors,
+            arrayListOf<Selector>(
                 SimpleSelector("div", null, arrayListOf("note"))
             )
         )
 
         assertEquals(
-            rule.declarations, arrayListOf(
+            rule.declarations,
+            arrayListOf(
                 Declaration("margin-bottom", Length(20.0f, Unit.Px)),
                 Declaration("padding", Length(10.0f, Unit.Px))
             )
@@ -61,13 +66,15 @@ internal class CSSParserTest {
 
         val rule = rules[0]
         assertEquals(
-            rule.selectors, arrayListOf<Selector>(
+            rule.selectors,
+            arrayListOf<Selector>(
                 SimpleSelector(null, "answer", ArrayList())
             )
         )
 
         assertEquals(
-            rule.declarations, arrayListOf(
+            rule.declarations,
+            arrayListOf(
                 Declaration("display", Keyword("none")),
             )
         )

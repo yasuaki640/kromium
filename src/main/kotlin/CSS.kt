@@ -1,6 +1,4 @@
-import java.lang.Exception
-
-class StyleSheet(val rules: ArrayList<Rule>)
+class StyleSheet(val rules: List<Rule>)
 
 class Rule(val selectors: ArrayList<Selector>, val declarations: ArrayList<Declaration>)
 
@@ -30,24 +28,32 @@ data class Specificity(val a: Int, val b: Int, val c: Int) : Comparable<Specific
 data class SimpleSelector(
     var tagName: String?,
     var id: String?,
-    val klazz: ArrayList<String>
+    val klazz: ArrayList<String>,
 ) : Selector
 
 data class Declaration(val name: String, val value: Value)
 
-sealed interface Value {
+sealed interface Value : Cloneable {
     /** Return the size of a length in px, or zero for non-lengths. */
     fun toPx(): Float = when (this) {
         is Length -> this.f
         else -> 0.0F
     }
+
+    public override fun clone(): Value
 }
 
-data class Keyword(val value: String) : Value
+data class Keyword(val value: String) : Value {
+    override fun clone(): Keyword = this.copy()
+}
 
-data class Length(val f: Float, val unit: Unit) : Value
+data class Length(val f: Float, val unit: Unit) : Value {
+    override fun clone(): Length = this.copy()
+}
 
-data class ColorValue(val color: Color) : Value
+data class ColorValue(val color: Color) : Value {
+    override fun clone(): ColorValue = this.copy()
+}
 
 enum class Unit {
     Px,
@@ -57,7 +63,7 @@ data class Color(
     val r: UInt,
     val g: UInt,
     val b: UInt,
-    val a: UInt
+    val a: UInt,
 )
 
 class CSSParser(private var pos: UInt, private val input: String) {
@@ -74,7 +80,8 @@ class CSSParser(private var pos: UInt, private val input: String) {
 
     /** Parse a rule set: `<selectors> { <declarations> }`. */
     private fun parseRule(): Rule = Rule(
-        this.parseSelectors(), this.parseDeclarations()
+        this.parseSelectors(),
+        this.parseDeclarations()
     )
 
     /** Parse a comma-separated list of selectors. */
@@ -187,7 +194,10 @@ class CSSParser(private var pos: UInt, private val input: String) {
         assert(this.consumeChar() == '#')
         return ColorValue(
             Color(
-                this.parseHexPair(), this.parseHexPair(), this.parseHexPair(), 255u
+                this.parseHexPair(),
+                this.parseHexPair(),
+                this.parseHexPair(),
+                255u
             )
         )
     }

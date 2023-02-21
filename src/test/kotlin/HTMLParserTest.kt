@@ -24,7 +24,8 @@ internal class HTMLParserTest {
 
         val text = body.children[0]
         assertEquals(
-            text.nodeType, Element(ElementData("h1", hashMapOf()))
+            text.nodeType,
+            Element(ElementData("h1", hashMapOf()))
         )
 
         val div = body.children[1]
@@ -34,7 +35,8 @@ internal class HTMLParserTest {
                 ElementData(
                     "div",
                     hashMapOf(
-                        Pair("id", "main"), Pair("class", "test")
+                        Pair("id", "main"),
+                        Pair("class", "test")
                     )
                 )
             )

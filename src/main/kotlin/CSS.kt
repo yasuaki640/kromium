@@ -67,6 +67,12 @@ data class Color(
 )
 
 class CSSParser(private var pos: UInt, private val input: String) {
+    /** Parse a whole CSS stylesheet. */
+    fun parse(source: String): StyleSheet {
+        val parser = CSSParser(0u, source)
+        return StyleSheet(parser.parseRules())
+    }
+
     /** Parse a list of rule sets, separated by optional whitespace. */
     fun parseRules(): ArrayList<Rule> {
         val rules = ArrayList<Rule>()

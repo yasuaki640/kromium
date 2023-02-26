@@ -59,12 +59,12 @@ fun matches(elem: ElementData, selector: Selector): Boolean = when (selector) {
 
 fun matchesSimpleSelector(elem: ElementData, selector: SimpleSelector): Boolean {
     // Check type selector
-    if (selector.tagName != elem.tagName) {
+    if (selector.tagName != null && selector.tagName != elem.tagName) {
         return false
     }
 
     // Check ID selector
-    if (selector.id != elem.id) {
+    if (selector.id != null && selector.id != elem.id) {
         return false
     }
 

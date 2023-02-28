@@ -1,7 +1,6 @@
 import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertIs
 
 internal class StyleTest {
     @Test
@@ -10,29 +9,41 @@ internal class StyleTest {
         val styleSheet = cssTree()
 
         val styleTree = styleTree(html, styleSheet)
-        assertIs<StyledNode>(styleTree)
 
         assertEquals(
-            styleTree.specifiedValues,
-            mutableMapOf(
-                "width" to Length(600f, Unit.Px),
-                "padding" to Length(10f, Unit.Px),
-                "border-width" to Length(1f, Unit.Px),
-                "margin" to Keyword("auto"),
-                "background" to ColorValue(Color(255u, 255u, 255u, 255u))
-            )
+            hashMapOf(
+                "padding" to Length(40f, Unit.Px),
+                "background-color" to ColorValue(Color(54u, 79u, 107u, 255u))
+            ),
+            styleTree.specifiedValues
         )
 
-        val headStyle = styleTree.children[0]
+        val inner1 = styleTree.children[0]
         assertEquals(
-            headStyle.specifiedValues,
-            mutableMapOf<String, Value>(
-                "display" to Keyword("none")
-            )
+            hashMapOf(
+                "padding" to Length(40f, Unit.Px),
+                "background-color" to ColorValue(Color(63u, 193u, 201u, 255u))
+            ),
+            inner1.specifiedValues
         )
 
-        // TODO クラスセレクタにspecifiedvaluesが入ってない、style.ktのクラスセレクタがうまいこと言ってない？
-        // TODO そもそも計算値などをサポート指定内容だ
+        val inner2 = inner1.children[0]
+        assertEquals(
+            hashMapOf(
+                "padding" to Length(40f, Unit.Px),
+                "background-color" to ColorValue(Color(245u, 245u, 245u, 255u))
+            ),
+            inner2.specifiedValues
+        )
+
+        val inner3 = inner2.children[0]
+        assertEquals(
+            hashMapOf(
+                "padding" to Length(40f, Unit.Px),
+                "background-color" to ColorValue(Color(252u, 81u, 133u, 255u))
+            ),
+            inner3.specifiedValues
+        )
     }
 
     private fun cssTree(): StyleSheet {
